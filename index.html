@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Business Suite</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-logo">AI</div>
+    <div>
+      <div class="brand-name">Business Suite</div>
+      <div class="brand-sub">Powered by Gemini</div>
+    </div>
+  </div>
+  <nav class="nav">
+    <button class="nav-item active" data-view="dashboard"><span class="nav-icon">▦</span> Dashboard</button>
+    <button class="nav-item" data-view="store"><span class="nav-icon">🛒</span> Store</button>
+    <button class="nav-item" data-view="orders"><span class="nav-icon">📦</span> Orders</button>
+    <button class="nav-item" data-view="booking"><span class="nav-icon">📅</span> Booking</button>
+    <button class="nav-item" data-view="crm"><span class="nav-icon">👥</span> CRM</button>
+    <button class="nav-item" data-view="inventory"><span class="nav-icon">🏬</span> Inventory / POS</button>
+    <button class="nav-item" data-view="landing"><span class="nav-icon">🌐</span> Landing Page</button>
+    <button class="nav-item" data-view="ai"><span class="nav-icon">✨</span> AI Tools</button>
+    <button class="nav-item" data-view="settings"><span class="nav-icon">⚙</span> Settings</button>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="ai-status" id="aiStatusBar">
+      <span class="dot" id="aiStatusDot"></span>
+      <span id="aiStatusText">AI: not configured</span>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div>
+      <h1 id="pageTitle">Dashboard</h1>
+      <p class="page-subtitle" id="pageSubtitle">Overview of your business</p>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-ghost" id="btnExport">Export Data</button>
+      <button class="btn btn-ghost" id="btnImport">Import Data</button>
+      <input type="file" id="importFile" accept=".json" style="display:none">
+      <div class="business-badge" id="businessBadge">My Business</div>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ============ DASHBOARD ============ -->
+    <section class="view active" id="view-dashboard">
+      <div class="stats-grid" id="statsGrid"></div>
+      <div class="card">
+        <h3>Recent Orders</h3>
+        <div id="dashRecentOrders"></div>
+      </div>
+      <div class="card">
+        <h3>Upcoming Bookings</h3>
+        <div id="dashUpcomingBookings"></div>
+      </div>
+    </section>
+
+    <!-- ============ STORE ============ -->
+    <section class="view" id="view-store">
+      <div class="card">
+        <div class="card-head">
+          <h3>Products</h3>
+          <button class="btn btn-primary" id="btnAddProduct">+ Add Product</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Price</th><th>Category</th><th>Stock</th><th>Actions</th></tr></thead>
+            <tbody id="productsTable"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h3>Customer Cart</h3>
+          <button class="btn" id="btnCheckout">Checkout (0 items)</button>
+        </div>
+        <div id="cartItems"></div>
+      </div>
+    </section>
+
+    <!-- ============ ORDERS ============ -->
+    <section class="view" id="view-orders">
+      <div class="card">
+        <h3>Orders</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="ordersTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BOOKING ============ -->
+    <section class="view" id="view-booking">
+      <div class="card">
+        <div class="card-head">
+          <h3>Services</h3>
+          <button class="btn btn-primary" id="btnAddService">+ Add Service</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Service</th><th>Duration</th><th>Price</th><th>Actions</th></tr></thead>
+            <tbody id="servicesTable"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h3>Appointments</h3>
+          <button class="btn btn-primary" id="btnAddAppointment">+ Book Appointment</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Customer</th><th>Service</th><th>Date &amp; Time</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="appointmentsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CRM ============ -->
+    <section class="view" id="view-crm">
+      <div class="card">
+        <div class="card-head">
+          <h3>Customers</h3>
+          <button class="btn btn-primary" id="btnAddCustomer">+ Add Customer</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Total Spent</th><th>Actions</th></tr></thead>
+            <tbody id="customersTable"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h3>Leads Pipeline</h3>
+          <button class="btn btn-primary" id="btnAddLead">+ Add Lead</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Lead</th><th>Source</th><th>Stage</th><th>Value</th><th>Actions</th></tr></thead>
+            <tbody id="leadsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INVENTORY / POS ============ -->
+    <section class="view" id="view-inventory">
+      <div class="stats-grid" id="invStats"></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            <h3>POS Register</h3>
+            <button class="btn" id="btnNewSale">New Sale</button>
+          </div>
+          <div id="posItems"></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <h3>Inventory Log</h3>
+            <button class="btn" id="btnAdjustStock">+ Adjust Stock</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Item</th><th>Qty</th><th>Low Threshold</th><th>Status</th></tr></thead>
+              <tbody id="inventoryTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Sales History</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>Date</th><th>Items</th><th>Total</th></tr></thead>
+            <tbody id="salesHistory"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LANDING PAGE ============ -->
+    <section class="view" id="view-landing">
+      <div class="card">
+        <h3>Landing Page Preview</h3>
+        <p class="muted">This is what visitors see. The AI Chatbot (bottom-right) is live on this page.</p>
+        <div class="landing-preview" id="landingPreview"></div>
+      </div>
+    </section>
+
+    <!-- ============ AI TOOLS ============ -->
+    <section class="view" id="view-ai">
+      <div class="grid-2">
+        <div class="card">
+          <h3>AI Content Generator</h3>
+          <label>What do you need?</label>
+          <select id="aiToolType">
+            <option value="description">Product Description</option>
+            <option value="post">Marketing Post</option>
+            <option value="email">Promotional Email</option>
+            <option value="ad">Ad Copy</option>
+          </select>
+          <label>Topic / Product</label>
+          <input type="text" id="aiTopic" placeholder="e.g. organic green tea tin box">
+          <label>Extra instructions (optional)</label>
+          <textarea id="aiPrompt" rows="3" placeholder="Target audience, tone, language..."></textarea>
+          <button class="btn btn-primary" id="btnGenerate">Generate with AI</button>
+          <div id="aiGenerateOutput" class="output-box"></div>
+        </div>
+        <div class="card">
+          <h3>AI Chatbot</h3>
+          <p class="muted">Chat with your AI assistant. It knows your products, services and customers.</p>
+          <div class="chat-box" id="aiChatBox"></div>
+          <div class="chat-input-row">
+            <input type="text" id="aiChatInput" placeholder="Ask anything about your business...">
+            <button class="btn btn-primary" id="btnChatSend">Send</button>
+          </div>
+          <div id="chatSuggestions">
+            <button class="chip" data-q="Summarize my business status">Summary</button>
+            <button class="chip" data-q="What are my low stock items?">Low stock</button>
+            <button class="chip" data-q="Suggest 3 product ideas">Product ideas</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SETTINGS ============ -->
+    <section class="view" id="view-settings">
+      <div class="card">
+        <h3>Business Settings</h3>
+        <div class="form-grid">
+          <div><label>Business Name</label><input type="text" id="setBizName" placeholder="My Business"></div>
+          <div><label>Tagline</label><input type="text" id="setTagline" placeholder="Your tagline here"></div>
+          <div><label>Currency</label><select id="setCurrency">
+            <option value="$">$ USD</option><option value="₹">₹ INR</option>
+            <option value="€">€ EUR</option><option value="£">£ GBP</option><option value="₨">₨ NPR</option>
+          </select></div>
+          <div><label>Phone</label><input type="text" id="setPhone" placeholder="+1 234 567 890"></div>
+          <div><label>Email</label><input type="text" id="setEmail" placeholder="contact@business.com"></div>
+          <div><label>Address</label><input type="text" id="setAddress" placeholder="City, Country"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>AI (LLM Provider)</h3>
+        <p class="muted">Pick a provider, paste its free API key, choose a model, then click Save.</p>
+        <label>Provider</label>
+        <select id="setProvider" style="width:100%">
+          <option value="gemini">Google Gemini (aistudio.google.com/apikey)</option>
+          <option value="nvidia">NVIDIA NIM (build.nvidia.com)</option>
+        </select>
+
+        <div id="providerGemini">
+          <label>Google Gemini API Key</label>
+          <input type="password" id="setApiKey" placeholder="Paste your Gemini API key (AIza...)" style="width:100%">
+          <label>Gemini Model</label>
+          <select id="setModel" style="width:100%">
+            <option value="gemini-2.0-flash">Gemini 2.0 Flash (fast, default)</option>
+            <option value="gemma-4-26b-a4b-it">Gemma 4 26B (open model, MoE)</option>
+            <option value="gemma-4-31b-it">Gemma 4 31B (open model, dense)</option>
+            <option value="gemini-3.6-flash">Gemini 3.6 Flash (latest)</option>
+          </select>
+          <p class="muted" style="margin-top:6px">Free key at aistudio.google.com/apikey · Gemma 4 uses the same key.</p>
+        </div>
+
+        <div id="providerNvidia" style="display:none">
+          <label>NVIDIA API Key</label>
+          <input type="password" id="setNvidiaKey" placeholder="Paste your NVIDIA key (nvapi-...)" style="width:100%">
+          <label>NVIDIA Model</label>
+          <select id="setNvidiaModel" style="width:100%">
+            <option value="meta/llama-3.1-8b-instruct">Llama 3.1 8B (fastest — recommended)</option>
+            <option value="meta/llama-3.3-70b-instruct">Llama 3.3 70B (smarter, slower)</option>
+            <option value="nvidia/llama-3.1-nemotron-70b-instruct">Nemotron 70B (NVIDIA)</option>
+            <option value="deepseek-ai/deepseek-r1">DeepSeek R1 (reasoning)</option>
+            <option value="mistralai/mistral-7b-instruct-v0.3">Mistral 7B (fast &amp; light)</option>
+            <option value="moonshotai/kimi-k2-instruct">Kimi K2 (agentic)</option>
+            <option value="qwen/qwen3-coder-480b-a35b-instruct">Qwen3 Coder 480B</option>
+            <option value="nvidia/ising-calibration-1.5-31b">Ising Calibration 1.5 31B</option>
+          </select>
+          <p class="muted" style="margin-top:6px">Free key at build.nvidia.com/settings/api-keys · starts with <b>nvapi-</b> · no credit card.</p>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn btn-primary" id="btnSaveSettings">Save Settings</button>
+          <button class="btn" id="btnTestAi">Test AI Connection</button>
+          <span id="aiTestResult"></span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Data</h3>
+        <p class="muted">Your data is saved in this browser (localStorage). You can back it up or reset everything.</p>
+        <div class="row">
+          <button class="btn" id="btnResetData" style="background:#d64545;color:#fff">Reset All Data</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- Chatbot widget (floating on every page) -->
+<div class="chatbot-widget" id="chatbotWidget">
+  <div class="chatbot-header" id="chatbotToggle">
+    <span>💬 AI Assistant</span><span class="cb-close">✕</span>
+  </div>
+  <div class="chatbot-body" id="chatbotBody" style="display:none">
+    <div class="chat-box" id="chatbotMsgs"></div>
+    <div class="chat-input-row">
+      <input type="text" id="chatbotInput" placeholder="Ask your AI assistant...">
+      <button class="btn btn-primary" id="chatbotSend">Send</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<div id="modal" class="modal" style="display:none">
+  <div class="modal-content" id="modalContent"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
